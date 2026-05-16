@@ -133,6 +133,6 @@ Live trade management
 Clone repository:
 
 ```bash
-git clone https://github.com/YOURNAME/hyperliquid-ai-perp-trader.git
+git clone https://github.com/Gelas-Soldat/hyperliquid-ai-perp-trader.git
 
 cd hyperliquid-ai-perp-trader
