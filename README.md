@@ -1,138 +1,125 @@
 # HyperLiquid AI Perp Trader
 
+🚧 **Work in Progress**
+
 AI assisted perpetual futures trading suite built for HyperLiquid.
 
-This project combines:
+This project is under active development and active paper testing. It is not finished, not audited, and should not be treated as a hands off live trading system.
 
-• Multi strategy trade scanning  
-• Dynamic stop loss and take profit logic  
-• Adaptive trend and volatility analysis  
-• Aggregate crypto market sentiment  
-• Paper and live trading modes  
-• Position management with trailing logic  
-• Telegram alerts  
-• Dashboard and monitoring tools
+## What It Does
 
-This repository is actively being developed and tested.
+This repo currently includes:
+
+- HyperLiquid perpetual pair scanner
+- Paper trading mode
+- Live mode foundation
+- Dynamic stop loss and take profit logic
+- Market structure filters
+- Trend and volatility checks
+- Liquidity and quality filters
+- Aggregate market sentiment layer
+- Telegram alerts
+- Trailing stop management files
+
+## Current Files
+
+| File | Purpose |
+|---|---|
+| `scanner_bot_v1.py` | Paper scanner |
+| `scanner_bot_v2.py` | Live scanner |
+| `trailing_stop_bot_v1.py` | Paper trailing stop manager |
+| `trailing_stop_bot_v2.py` | Live trailing stop manager |
+| `launch-dashboard.bat` | Optional Windows launcher |
+| `.env.example` | Example environment variables |
 
 ## Current Status
 
-⚠️ Work in Progress
+This project is still being debugged and tuned.
 
-This system is under active development and strategy tuning.
+Known active areas:
 
-Paper trading and validation come first.
+- More paper trading validation
+- More accurate strategy scoring
+- Reducing false positives in choppy markets
+- Improving no-indicator and no-direction handling
+- Hardening live execution safeguards
+- Improving status/debug output
+- Reviewing technical indicator logic against real market behavior
 
-Do not assume profitability or production readiness.
+## Strategy Components
 
-Current goals:
+The scanner uses a mix of:
 
-✅ Improve signal quality  
-✅ Reduce choppy market entries  
-✅ Improve trend detection  
-✅ Improve liquidity filtering  
-✅ Validate performance in paper mode  
-⬜ Expand live execution safeguards  
-⬜ Improve market regime detection  
-⬜ Portfolio level risk management
+- EMA structure
+- RSI
+- Stochastic RSI
+- MACD
+- ADX and DI gap
+- Bollinger Band width
+- Candle body and wick structure
+- Funding rates
+- Liquidity and volume filters
+- Market sentiment aggregation
+- Dynamic SL / TP targets
 
----
+Strategies may include:
 
-## Features
-
-### Scanner
-
-Scans HyperLiquid perpetual pairs using:
-
-EMA structure
-
-RSI
-
-ADX
-
-MACD
-
-ATR
-
-Bollinger Bands
-
-Funding rates
-
-Volatility filters
-
-Trend quality analysis
-
-Stop Hunt Reversal
-
-Opening Range Break
-
-Dynamic setup classification
-
----
-
-### Dynamic Risk Logic
-
-Stop loss adjusts based on:
-
-market volatility
-
-trend quality
-
-setup classification
-
-position structure
-
-Take profit levels adapt to market conditions.
-
-Trades can be skipped entirely during poor structure.
-
----
-
-### Market Sentiment
-
-Aggregate sentiment currently uses:
-
-Internet Panic Index
-
-CoinMind AI Fear and Greed
-
-FearGreedMeter
-
-CoinMarketCap Fear and Greed
-
-Combined sentiment influences filtering and trade selection.
-
----
-
-## Modes
-
-scanner_bot_v1.py
-
-Paper mode
-
-Designed for testing and validation.
-
-scanner_bot_v2.py
-
-Live mode
-
-Uses stricter filtering and safeguards.
-
-trailing_bot_v1.py
-
-Paper trade management
-
-trailing_bot_v2.py
-
-Live trade management
-
----
+- EMA continuation
+- Stop Hunt Reversal
+- Opening Range Break style logic
 
 ## Setup
 
-Clone repository:
+Install dependencies:
 
 ```bash
-git clone https://github.com/Gelas-Soldat/hyperliquid-ai-perp-trader.git
+pip install -r requirements.txt
+```
 
-cd hyperliquid-ai-perp-trader
+Create your `.env` file from `.env.example`:
+
+```bash
+copy .env.example .env
+```
+
+Then edit `.env` with your own values.
+
+Run paper scanner:
+
+```bash
+python scanner_bot_v1.py
+```
+
+Run live scanner only after you fully understand the code and have tested extensively:
+
+```bash
+python scanner_bot_v2.py
+```
+
+## Environment Variables
+
+See `.env.example`.
+
+Important:
+
+Never commit `.env`.
+Never commit real wallet keys.
+Never commit Telegram bot tokens.
+
+## GitHub Warning
+
+Before pushing, confirm these are ignored:
+
+- `.env`
+- `paper_trades.json`
+- `scanner_state.json`
+- logs
+- cache files
+
+## Disclaimer
+
+This project is experimental software.
+
+Perpetual futures trading is high risk. You can lose money quickly, especially in crypto markets. This code is provided for research, learning, and paper trading. No profitability is promised or implied.
+
+Use at your own risk.
