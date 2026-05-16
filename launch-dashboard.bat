@@ -1,42 +1,66 @@
 @echo off
-setlocal
-
-cd /d "%~dp0"
+title HyperLiquid AI Perp Trader Launcher
+color 0A
 
 echo ==========================================
-echo   HyperLiquid Trading Stack Launcher
+echo      HyperLiquid AI Perp Trader
 echo ==========================================
 echo.
-
-echo [1/4] Starting trailing stop bot...
-start "Trailing Stop Bot" cmd /k py trailing_stop_bot.py
-
-echo Waiting for trailing bot to initialize...
-timeout /t 3 /nobreak >nul
-
-echo [2/4] Starting scanner bot...
-start "Scanner Bot" cmd /k py scanner_bot.py
-
-echo Waiting for scanner to initialize...
-timeout /t 2 /nobreak >nul
-
-echo [3/4] Starting local proxy server...
-start "Dashboard Proxy" cmd /k py proxy.py
-
-echo Waiting for proxy to come online...
-timeout /t 2 /nobreak >nul
-
-echo [4/4] Opening dashboard...
-start "" http://localhost:8081/scalping-dashboard.html
-
+echo Select mode:
 echo.
-echo Launch sequence complete.
+echo [1] Paper Trading Suite
+echo [2] Live Trading Suite
+echo [3] Scanner Only (Paper)
+echo [4] Scanner Only (Live)
+echo [5] Trailing Only (Paper)
+echo [6] Trailing Only (Live)
 echo.
-echo Order used:
-echo   1. trailing_stop_bot.py
-echo   2. scanner_bot.py
-echo   3. proxy.py
-echo   4. dashboard in browser
+set /p choice=Enter option:
+
+if "%choice%"=="1" goto paper
+if "%choice%"=="2" goto live
+if "%choice%"=="3" goto scannerpaper
+if "%choice%"=="4" goto scannerlive
+if "%choice%"=="5" goto trailpaper
+if "%choice%"=="6" goto traillive
+
+echo Invalid option.
+pause
+exit
+
+:paper
+echo Starting Paper Suite...
+start "Paper Scanner" cmd /k python scanner_bot_v1.py
+timeout /t 8 >nul
+start "Paper Trailing" cmd /k python trailing_stop_bot_v1.py
+goto end
+
+:live
+echo Starting Live Suite...
+echo WARNING: LIVE MODE ENABLED
+timeout /t 5 >nul
+start "Live Scanner" cmd /k python scanner_bot_v2.py
+timeout /t 8 >nul
+start "Live Trailing" cmd /k python trailing_stop_bot_v2.py
+goto end
+
+:scannerpaper
+start "Paper Scanner" cmd /k python scanner_bot_v1.py
+goto end
+
+:scannerlive
+start "Live Scanner" cmd /k python scanner_bot_v2.py
+goto end
+
+:trailpaper
+start "Paper Trailing" cmd /k python trailing_stop_bot_v1.py
+goto end
+
+:traillive
+start "Live Trailing" cmd /k python trailing_stop_bot_v2.py
+goto end
+
+:end
 echo.
-echo Press any key to close this launcher window.
-pause >nul
+echo Launcher started.
+pause
